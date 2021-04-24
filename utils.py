@@ -18,6 +18,7 @@ from IPython.display import HTML
 from linedraw import *
 from IPython import display
 import pickle
+import svgwrite
 
 def create_from_text(text):
   width = 256
