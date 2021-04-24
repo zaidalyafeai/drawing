@@ -23,6 +23,18 @@ import tqdm.notebook as tq
 from nltk.corpus import words
 import nltk
 
+def convert_format(data):
+  new_data = []
+  for segment in data:
+    x_data = []
+    y_data = []
+    for point in segment:
+      x, y = point 
+      x_data.append(300 - x)
+      y_data.append(y)
+    new_data.append([x_data, y_data])
+  return new_data
+
 def load_data(filename= "words.npz"):
   load_data = np.load(filename, allow_pickle=True, encoding='bytes')
 
