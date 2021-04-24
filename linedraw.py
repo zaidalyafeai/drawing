@@ -21,7 +21,7 @@ try:
     import numpy as np
     import cv2
 except:
-    print("Cannot import numpy/openCV. Switching to NO_CV mode.")
+    # print("Cannot import numpy/openCV. Switching to NO_CV mode.")
     no_cv = True
 
 
@@ -44,7 +44,7 @@ def image_to_json(
 
 
 def makesvg(lines):
-    print("generating svg file...")
+    # print("generating svg file...")
     width = math.ceil(max([max([p[0]*0.5 for p in l]) for l in lines]))
     height = math.ceil(max([max([p[1]*0.5 for p in l]) for l in lines]))
     out = '<svg xmlns="http://www.w3.org/2000/svg" height="%spx" width="%spx" version="1.1">' % (height, width)
@@ -141,15 +141,15 @@ def vectorise(
     segments = 0
     for line in lines:
         segments = segments + len(line)
-#     print(len(lines), "strokes,", segments, "points.")
-#     print("done.")
+#     # print(len(lines), "strokes,", segments, "points.")
+#     # print("done.")
     return lines
 
 
 # -------------- vectorisation options --------------
 
 def getcontours(image, draw_contours=2):
-    print("generating contours...")
+    # print("generating contours...")
     image = find_edges(image)
     IM1 = image.copy()
     IM2 = image.rotate(-90,expand=True).transpose(Image.FLIP_LEFT_RIGHT)
@@ -186,15 +186,15 @@ def hatch(image, draw_hatch=16):
 
     t0 = time.time()
 
-    print("hatching using hatch()...")
+    # print("hatching using hatch()...")
     pixels = image.load()
     w, h = image.size
     lg1 = []
     lg2 = []
     for x0 in range(w):
-        # print("reading x", x0)
+        # # print("reading x", x0)
         for y0 in range(h):
-            # print("    reading y", x0)
+            # # print("    reading y", x0)
             x = x0 * draw_hatch
             y = y0 * draw_hatch
 
@@ -219,7 +219,7 @@ def hatch(image, draw_hatch=16):
 
     t1 = time.time()
 
-#     print("wrangling points...")
+#     # print("wrangling points...")
 
     # Make segments into lines
     line_groups = [lg1, lg2]
@@ -246,9 +246,9 @@ def hatch(image, draw_hatch=16):
 
     t2 = time.time()
 
-#     print("hatching   : ", t1 - t0)
-#     print("wrangling:   ", t2 - t1)
-#     print("total:       ", t2 - t0)
+#     # print("hatching   : ", t1 - t0)
+#     # print("wrangling:   ", t2 - t1)
+#     # print("total:       ", t2 - t0)
 
     return lines
 
@@ -256,7 +256,7 @@ def hatch(image, draw_hatch=16):
 # -------------- supporting functions for drawing contours --------------
 
 def find_edges(image):
-    print("finding edges...")
+    # print("finding edges...")
     if no_cv:
         #appmask(IM,[F_Blur])
         appmask(image,[F_SobelX,F_SobelY])
@@ -269,7 +269,7 @@ def find_edges(image):
 
 
 def getdots(IM):
-    print("getting contour points...")
+    # print("getting contour points...")
     PX = IM.load()
     dots = []
     w,h = IM.size
@@ -289,7 +289,7 @@ def getdots(IM):
 
 
 def connectdots(dots):
-    print("connecting contour points...")
+    # print("connecting contour points...")
     contours = []
     for y in range(len(dots)):
         for x,v in dots[y]:
@@ -324,7 +324,7 @@ def connectdots(dots):
 # -------------- optimisation for pen movement --------------
 
 def sortlines(lines):
-    print("optimizing stroke sequence...")
+    # print("optimizing stroke sequence...")
     clines = lines[:]
     slines = [clines.pop(0)]
     while clines != []:
