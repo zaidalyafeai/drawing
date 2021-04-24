@@ -19,7 +19,51 @@ from linedraw import *
 from IPython import display
 import pickle
 import svgwrite
+import tqdm.notebook as tq
 
+
+def load_data(filename= "words.npz"):
+  load_data = np.load(filename, allow_pickle=True, encoding='bytes')
+
+  train_set = load_data['train']
+  valid_set = load_data['valid']
+  test_set = load_data['test']
+
+  return train_set, valid_set, test_set
+  
+def create_dataset():
+  train_data = []
+  valid_data = []
+  test_data = []
+  count = 0 
+  os.makedirs('images', exist_ok = True)
+  for word in tq.tqdm(words.words()):
+    if len(word) > 5:
+      continue 
+    
+    create_from_text(word)
+    image_to_json("result.png", draw_contours=2, draw_hatch=0, resolution = 1024)
+    with open('images/result.png.json', 'r') as f:
+      data = json.loads(f.read())
+    strokes = add_z(data)
+    if strokes.shape[0] > 250:
+      continue
+    count += 1
+    if count % 100 == 0:
+      print(count)
+    if count < 1000:
+      train_data.append(strokes)
+    elif count <1100:
+      valid_data.append(strokes)
+    elif count <1200:
+      test_data.append(strokes)
+    else:
+      break
+  
+  print("save dataset")
+  with open('words.npz', 'wb') as f:
+    pickle.dump({'train':train_data, 'valid':valid_data, 'test':test_data}, f, protocol=2)  
+    
 def create_from_text(text):
   width = 256
   height = 256
