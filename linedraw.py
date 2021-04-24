@@ -141,8 +141,8 @@ def vectorise(
     segments = 0
     for line in lines:
         segments = segments + len(line)
-    print(len(lines), "strokes,", segments, "points.")
-    print("done.")
+#     print(len(lines), "strokes,", segments, "points.")
+#     print("done.")
     return lines
 
 
@@ -219,7 +219,7 @@ def hatch(image, draw_hatch=16):
 
     t1 = time.time()
 
-    print("wrangling points...")
+#     print("wrangling points...")
 
     # Make segments into lines
     line_groups = [lg1, lg2]
@@ -246,9 +246,9 @@ def hatch(image, draw_hatch=16):
 
     t2 = time.time()
 
-    print("hatching   : ", t1 - t0)
-    print("wrangling:   ", t2 - t1)
-    print("total:       ", t2 - t0)
+#     print("hatching   : ", t1 - t0)
+#     print("wrangling:   ", t2 - t1)
+#     print("total:       ", t2 - t0)
 
     return lines
 
