@@ -20,7 +20,8 @@ from IPython import display
 import pickle
 import svgwrite
 import tqdm.notebook as tq
-
+from nltk.corpus import words
+import nltk
 
 def load_data(filename= "words.npz"):
   load_data = np.load(filename, allow_pickle=True, encoding='bytes')
@@ -32,6 +33,7 @@ def load_data(filename= "words.npz"):
   return train_set, valid_set, test_set
   
 def create_dataset():
+  nltk.download('words')
   train_data = []
   valid_data = []
   test_data = []
