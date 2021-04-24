@@ -39,7 +39,8 @@ def create_dataset():
   test_data = []
   count = 0 
   os.makedirs('images', exist_ok = True)
-  for word in tq.tqdm(words.words()):
+  pbar = tq.tqdm(total = 1200)
+  for word in words.words():
     if len(word) > 5:
       continue 
     
@@ -51,8 +52,7 @@ def create_dataset():
     if strokes.shape[0] > 250:
       continue
     count += 1
-    if count % 100 == 0:
-      print(count)
+    pbar.update(1)
     if count < 1000:
       train_data.append(strokes)
     elif count <1100:
@@ -60,6 +60,7 @@ def create_dataset():
     elif count <1200:
       test_data.append(strokes)
     else:
+      pbar.close()
       break
   
   print("save dataset")
