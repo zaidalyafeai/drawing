@@ -51,8 +51,8 @@ def create_dataset(train_size = 1000):
   test_data = []
   count = 0 
   os.makedirs('images', exist_ok = True)
-  valid_size = int(0.1*train_size) + train_size
-  test_size = int(0.1*train_size) + train_size + valid_size
+  valid_size = int(0.1*train_size) 
+  test_size = int(0.1*train_size)
   pbar = tq.tqdm(total = train_size+valid_size+test_size)
   for word in words.words():
     if len(word) > 5:
@@ -69,9 +69,9 @@ def create_dataset(train_size = 1000):
     pbar.update(1)
     if count < train_size:
       train_data.append(strokes)
-    elif count <valid_size:
+    elif count < valid_size + train_size:
       valid_data.append(strokes)
-    elif count <test_size:
+    elif count < test_size + valid_size + train_size:
       test_data.append(strokes)
     else:
       pbar.close()
