@@ -44,14 +44,16 @@ def load_data(filename= "words.npz"):
 
   return train_set, valid_set, test_set
   
-def create_dataset():
+def create_dataset(train_size = 1000):
   nltk.download('words')
   train_data = []
   valid_data = []
   test_data = []
   count = 0 
   os.makedirs('images', exist_ok = True)
-  pbar = tq.tqdm(total = 1200)
+  valid_size = int(0.1*train_size) + train_size
+  test_size = int(0.1*train_size) + train_size + valid_size
+  pbar = tq.tqdm(total = train_size+valid_size+test_size)
   for word in words.words():
     if len(word) > 5:
       continue 
@@ -65,11 +67,11 @@ def create_dataset():
       continue
     count += 1
     pbar.update(1)
-    if count < 1000:
+    if count < train_size:
       train_data.append(strokes)
-    elif count <1100:
+    elif count <valid_size:
       valid_data.append(strokes)
-    elif count <1200:
+    elif count <test_size:
       test_data.append(strokes)
     else:
       pbar.close()
